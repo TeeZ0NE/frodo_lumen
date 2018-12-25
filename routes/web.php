@@ -11,6 +11,12 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+/*$router->get('/', function () use ($router) {
     return $router->app->version();
+});*/
+//$router->get('api/foo', function () {
+//	return 'Hello World';
+//});
+$router->group(['prefix'=>'api/accounts'], function () use ($router){
+	$router->post('new',['as' => 'account_new', 'uses'=>'AccountController@store']);
 });
