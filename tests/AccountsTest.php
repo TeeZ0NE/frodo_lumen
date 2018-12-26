@@ -6,8 +6,8 @@
  * Time: 4:22 PM
  */
 
-use App\Models\Account;
 use App\Http\Libs\TwitterAPI;
+use App\Http\Libs\StoreStatuses;
 
 class AccountsTest extends TestCase
 {
@@ -17,6 +17,7 @@ class AccountsTest extends TestCase
 
 	public $acc_c;
 	public $interval = 10;
+	public $store_statuses;
 
 	public function __construct()
 	{
@@ -29,6 +30,8 @@ class AccountsTest extends TestCase
 		$this->screen_name = 'adme_ru';
 		$this->acc_c = new App\Http\Controllers\AccountController();
 		$this->setStatuses();
+		$this->store_statuses = new StoreStatuses
+		($this->screen_name, $this->getStatuses(), $this->interval);
 		parent::setUp();
 	}
 
@@ -77,7 +80,7 @@ class AccountsTest extends TestCase
 			['screen_name' => $this->screen_name, 'interval' => $this->interval])
 			->seeJsonEquals([
 				"status" => "success",
-				"description" => "User (adme_ru) stored in database with refresh interval 10 hour(s)"
+				"description" => "User ({$this->screen_name}) stored in database with refresh interval 10 hour(s)"
 			]);
 	}
 
@@ -95,20 +98,6 @@ class AccountsTest extends TestCase
 			]);
 	}
 
-	/**
-	 * Check User in Tweeter
-	 * @test-
-	 */
-	public function checkUserInTweeter()
-	{
-		$this->json('POST', '/api/accounts/new',
-			['screen_name' => $this->screen_name, 'interval' => $this->interval])
-			->seeJsonEquals(collect([
-				"status" => "success",
-				"description" => "User ({$this->screen_name}) stored in 
-		database with refresh interval 10 hour(s)"
-			]));
-	}
 
 	/**
 	 * Check connection
@@ -121,7 +110,7 @@ class AccountsTest extends TestCase
 
 	/**
 	 * Check statusee are not empty
-	 * @test-
+	 * @test
 	 */
 	public function check_statuses()
 	{
@@ -140,7 +129,8 @@ class AccountsTest extends TestCase
 		);
 		$this->assertEquals(
 			2,
-			count($this->getTitleAndDescription($this->getStatuses()[0]))
+			count($this->store_statuses->getTitleAndDescription
+				($this->getStatuses()[0]))
 		);
 	}
 
@@ -150,29 +140,29 @@ class AccountsTest extends TestCase
 	 */
 	public function check_get_status_id()
 	{
-		$this->assertEquals(731025004889055232, $this->getIdStr
+		$this->assertEquals(731025004889055232, $this->store_statuses->getIdStr
 		($this->getStatuses()[1]));
 	}
 
 	/**
 	 * get retweet count
-	 * @test-
+	 * @test
 	 */
 	public function check_get_retweet_count(){
-		$this->assertEquals(35,
-			$this->getRetweetCount($this->getStatuses()[1])
+		$this->assertEquals(22,
+			$this->store_statuses->getRetweetCount($this->getStatuses()[0])
 			);
 	}
 
 	/**
 	 * check get favorites count
-	 * @test-
+	 * @test
 	 */
 	public function check_get_likes()
 	{
 		$this->assertEquals(
-			475,
-			$this->getFavoriteCount($this->getStatuses()[0])
+			101,
+			$this->store_statuses->getFavoriteCount($this->getStatuses()[0])
 		);
 	}
 	/**
@@ -182,7 +172,7 @@ class AccountsTest extends TestCase
 	public function check_user_name()
 	{
 		$this->assertEquals("AdMe - Вдохновение",
-			$this->getUsername()
+			$this->store_statuses->getUsername()
 		);
 	}
 
@@ -192,9 +182,9 @@ class AccountsTest extends TestCase
 	 */
 	public function check_repl_count()
 	{
-		$this->assertEquals(0,$this->getReplyCount($this->getStatuses()[0]));
+		$this->assertEquals(0,$this->store_statuses->getReplyCount
+			($this->getStatuses()[0]));
 	}
-
 	/**
 	 * get creation date
 	 * @test-
@@ -202,7 +192,17 @@ class AccountsTest extends TestCase
 	public function check_creation_date()
 	{
 		$this->assertEquals("2016-05-13 09:05:14",
-			$this->getCreationDate
-		($this->getStatuses()[0]));
+			$this->store_statuses->getCreationDate($this->getStatuses()[0])
+			);
+	}
+
+	/**
+	 * store or update new user
+	 * @test-
+	 */
+	public function check_store_uptd_new_user()
+	{
+//		$this->assertGreaterThan(0,$this->store_statuses->storeAccount());
+		$this->assertGreaterThan(0,$this->store_statuses->getAccountId());
 	}
 }

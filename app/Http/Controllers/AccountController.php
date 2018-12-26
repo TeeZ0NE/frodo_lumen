@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Http\Libs\{
-	StatusMessage, TwitterAPI
+	StatusMessage, TwitterAPI, StoreStatuses
 };
 
 
@@ -28,7 +28,7 @@ class AccountController extends Controller
 		]);
 
 		$this->screen_name = $request->screen_name;
-		$interval = $request->interval;
+		$interval = $request->interval ?? 4;
 		# check record in db
 		if ($this->checkScreenNameInDb($this->screen_name)) {
 			return response()->json(StatusMessage::statusMessage(false,
@@ -36,11 +36,16 @@ class AccountController extends Controller
 		}
 
 		$this->setStatuses();
-		# work Twetter with
+		# work Twitter with errors or not found on service
 		if ($this->checkRequestErrors()) {
 			return response()->json(StatusMessage::statusMessage(false,
 				$this->getErrorMessage()));
-		} else {
+		}
+		elseif (empty($this->getStatuses()))
+			return response()->json(StatusMessage::statusMessage(false,
+			sprintf('Tweets not found this user (%s). No time line yet',
+				$this->screen_name)));
+		else {
 			# store new record
 			return $this->storeNewUser($interval);
 		}
@@ -62,8 +67,26 @@ class AccountController extends Controller
 
 	function storeNewUser(int $interval)
 	{
-		return response()->json(StatusMessage::statusMessage(true,
-			sprintf('User (%s) stored in database with refresh interval %d hour(s)', $this->screen_name,
-				$interval)));
+		$store_statuses = new StoreStatuses(
+			$this->screen_name, $this->getStatuses(), $interval
+		);
+		if ($store_statuses->getAccountId()) {
+			switch ($store_statuses->isPostStore()) {
+				case true:
+					$msg = 'The user (%s) is stored in the database. Refresh interval %d hour(s)';
+					break;
+				default:
+					$msg = 'The user (%s) is stored in the database, but there is no tweets. Probably not yet. Refresh interval %d hour(s)';
+			}
+
+			return response()->json(StatusMessage::statusMessage(true,
+				sprintf($msg, $this->screen_name, $interval)));
+
+		} else {
+
+			return response()->json(StatusMessage::statusMessage(false,
+				sprintf('The user with screen name %s didn\'t store',
+					$this->screen_name)));
+		}
 	}
 }
