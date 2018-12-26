@@ -18,7 +18,7 @@ class PostCreate extends Migration
 	        $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->unsignedInteger('account_id')->comment('fk 2 account id');
-            $table->unsignedBigInteger('id_str')->nullable()->comment('tweet id');
+            $table->string('id_str')->nullable()->index()->comment('tweet id');
             $table->string('title')->comment('part of text from service');
             $table->longText('description')->comment('body of text');
             $table->dateTime('created_at')->comment('date and time creation of a tweet from service');

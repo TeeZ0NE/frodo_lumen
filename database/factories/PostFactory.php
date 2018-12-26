@@ -16,7 +16,7 @@ $factory->define(Post::class, function (Faker $faker) {
 		'account_id' => function () {
 			return Account::all()->random();
 		},
-		'id_str' => $faker->unique()->randomNumber(),
+		'id_str' => (string)$faker->unique()->randomNumber(),
 		'title' => $faker->text(30),
 		'description' => $faker->text(40),
 		'created_at' => $faker->dateTime,
