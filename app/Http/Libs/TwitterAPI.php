@@ -9,12 +9,13 @@
 namespace App\Http\Libs;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Carbon\Carbon;
 trait TwitterAPI
 {
 	private $consumer_key = 'jcd8wIWX2h0IfmCQOIr7OxWke';
 	private $consumer_secret = 'gmtPg3Q86UmOYa3hJcTDY7mBkSvx11Fx2uggRI0y93L4sKWzdq';
 	private $tokens = [];
-	private $twit_connection;
+	private $twit_connection = null;
 	public $screen_name;
 	/**
 	 * @var array All statuses from user
@@ -61,6 +62,8 @@ trait TwitterAPI
 	/**
 	 * Get statuses
 	 *
+	 * Fulla data with links, favorites, shares and User info
+	 *
 	 * @return array
 	 */
 	public function getStatuses()
@@ -91,6 +94,75 @@ trait TwitterAPI
 		return $this->getStatuses()->errors[$index]->message;
 	}
 
+	/**
+	 * Get title and description from statuses text object
+	 *
+	 * @param object $statuses
+	 * @return array 0 is Title 1 is Description
+	 */
+	public function getTitleAndDescription($statuses)
+	{
+		return explode("\n\n", trim($statuses->text));
+	}
+
+	/**
+	 * Get Id of status
+	 * @param object $statuses
+	 * @return int
+	 */
+	public function getIdStr($statuses) : int
+	{
+		return $statuses->id ?? 0;
+	}
+
+	/**
+	 * Get count of retweets
+	 *
+	 * @param object $statuses
+	 * @return int
+	 */
+	public function getRetweetCount($statuses) : int
+	{
+		return $statuses->retweet_count ?? 0;
+	}
+
+	/**
+	 * Get likes count
+	 *
+	 * @param $statuses
+	 * @return int
+	 */
+	public function getFavoriteCount($statuses) : int
+	{
+		return $statuses->favorite_count ?? 0;
+	}
+
+	/**
+	 * Get reply count
+	 *
+	 * At the moment it blocked tweeter's developers
+	 * @param $statuses
+	 * @return int
+	 */
+	public function getReplyCount($statuses) : int
+	{
+		return $statuses->reply_count ?? 0;
+	}
+
+	public function getCreationDate($statuses)
+	{
+		return Carbon::createFromTimeString($statuses->created_at)->toDateTimeString();
+	}
+
+	/**
+	 * Get user name (displayed)
+	 *
+	 * @return string
+	 */
+	public function getUserName() : string
+	{
+		return $this->statuses[0]->user->name;
+	}
 
 	/*
 	*-----------
@@ -126,13 +198,5 @@ trait TwitterAPI
 				"count" => $this->count_statuses, "exclude_replies" =>
 				$exclude_replies]);
 	}
-	function getTitleAndDescription(string $text)
-	{
-		return explode("\n", trim($text));
-	}
 
-	function setUser(array $user)
-	{
-		return true;
-	}
 }
