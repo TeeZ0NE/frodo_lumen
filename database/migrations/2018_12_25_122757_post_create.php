@@ -14,8 +14,8 @@ class PostCreate extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-	        $table->charset = 'utf8';
-	        $table->collation = 'utf8_unicode_ci';
+	        $table->charset = 'utf8mb4';
+	        $table->collation = 'utf8mb4_general_ci';
             $table->increments('id');
             $table->unsignedInteger('account_id')->comment('fk 2 account id');
             $table->string('id_str')->nullable()->index()->comment('tweet id');
