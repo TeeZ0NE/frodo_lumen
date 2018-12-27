@@ -10,6 +10,13 @@ namespace App\Http\Libs;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+/**
+ * Trait TwitterAPI
+ *
+ * Twitter connection
+ *
+ * @package App\Http\Libs
+ */
 trait TwitterAPI
 {
 	private $consumer_key = 'jcd8wIWX2h0IfmCQOIr7OxWke';
@@ -24,16 +31,12 @@ trait TwitterAPI
 	/**
 	 * @var int Count of statuses. Max is 200
 	 */
-	private $count_statuses = 2;
+	private $count_statuses = 10;
 
 	public function __construct()
 	{
 		$this->setTokens();
 		$this->setConnection();
-		/*$this->middleware(function ($request, $next) {
-				if($request->id >= 5) return $next($request);
-				return abort(404);
-		});*/
 	}
 
 	/**
