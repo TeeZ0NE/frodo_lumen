@@ -29,9 +29,9 @@ class AccountsTest extends TestCase
 	{
 		$this->screen_name = 'adme_ru';
 		$this->acc_c = new App\Http\Controllers\AccountController();
-		$this->setStatuses();
-		$this->store_statuses = new StoreStatuses
-		($this->screen_name, $this->getStatuses(), $this->interval);
+//		$this->setStatuses();
+//		$this->store_statuses = new StoreStatuses
+//		($this->screen_name, $this->getStatuses(), $this->interval);
 		parent::setUp();
 	}
 
@@ -110,7 +110,7 @@ class AccountsTest extends TestCase
 
 	/**
 	 * Check statusee are not empty
-	 * @test
+	 * @test-
 	 */
 	public function check_statuses()
 	{
@@ -146,7 +146,7 @@ class AccountsTest extends TestCase
 
 	/**
 	 * get retweet count
-	 * @test
+	 * @test-
 	 */
 	public function check_get_retweet_count(){
 		$this->assertEquals(22,
@@ -156,7 +156,7 @@ class AccountsTest extends TestCase
 
 	/**
 	 * check get favorites count
-	 * @test
+	 * @test-
 	 */
 	public function check_get_likes()
 	{
@@ -204,5 +204,59 @@ class AccountsTest extends TestCase
 	{
 //		$this->assertGreaterThan(0,$this->store_statuses->storeAccount());
 		$this->assertGreaterThan(0,$this->store_statuses->getAccountId());
+	}
+
+	/**
+	 * User update
+	 * @test-
+	 */
+	public function updateUserValidateExists()
+	{
+		$this->json('POST',"/api/accounts/$this->screen_name",
+			['interval' => $this->interval])
+			->seeJsonEquals([
+				'status'=>'success',
+				'description'=>"Interval for {$this->screen_name} was updated to {$this->interval}"
+			]);
+	}
+
+	/**
+	 * User update fail
+	 * @test-
+	 */
+	public function updateUserValidaeFail()
+	{
+		$this->json('POST',"/api/accounts/qwert",
+			['interval' => $this->interval])
+			->seeJsonEquals([
+				'status'=>'error',
+				'description'=>"The qwert not found in database and not updated"
+			]);
+	}
+	/**
+	 * User delete
+	 * @test-
+	 */
+	public function deleteUserValidateExists()
+	{
+		$this->json('POST',"/api/accounts/$this->screen_name/delete",
+			['interval' => $this->interval])
+			->seeJsonEquals([
+				'status'=>'success',
+				'description'=>"The {$this->screen_name} was deleted"
+			]);
+	}
+	/**
+	 * User delete fail
+	 * @test-
+	 */
+	public function deleteUserValidateFail()
+	{
+		$this->json('POST',"/api/accounts/qwert/delete",
+			['interval' => $this->interval])
+			->seeJsonEquals([
+				'status'=>'error',
+				'description'=>"The qwert not found and not deleted"
+			]);
 	}
 }

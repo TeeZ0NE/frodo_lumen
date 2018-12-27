@@ -19,4 +19,8 @@
 //});
 $router->group(['prefix'=>'api/accounts'], function () use ($router){
 	$router->post('new',['as' => 'account_new', 'uses'=>'AccountController@store']);
+	$router->get('/','AccountController@index');
+	$router->get('posts', 'AccountController@indexAllWithPosts');
+	$router->post('{screen_name}', 'AccountController@update');
+	$router->post('{screen_name}/delete', 'AccountController@delete');
 });
