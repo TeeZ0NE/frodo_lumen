@@ -36,7 +36,7 @@ trait TwitterAPI
 	public function __construct()
 	{
 		$this->setTokens();
-		$this->setConnection();
+		$this->setTwitConnection();
 	}
 
 	/**
@@ -79,9 +79,9 @@ trait TwitterAPI
 	 *
 	 * @return bool
 	 */
-	public function checkRequestErrors() : bool
+	public function checkRequestErrors(): bool
 	{
-		return isset($this->statuses->errors);
+		return isset($this->statuses->errors) or isset($this->statuses->error);
 	}
 
 	/**
@@ -90,11 +90,16 @@ trait TwitterAPI
 	 * @param int $index of error
 	 * @return string
 	 */
-	public function getErrorMessage(int $index=0) : string
+	public function getErrorMessage(int $index = 0): string
 	{
-		if ($index > count($this->getStatuses()->errors)) $index = 0;
+		if (isset($this->getStatuses()->errors) and $index > count
+			($this->getStatuses()->errors)) {
+			$index = 0;
 
-		return $this->getStatuses()->errors[$index]->message;
+			return $this->getStatuses()->errors[$index]->message;
+		} else
+
+			return "Error occur";
 	}
 
 
@@ -109,11 +114,12 @@ trait TwitterAPI
 		$this->tokens['secret'] = 'xTUPkpfNqPRyrOh6UpPubAVAV0eetbLzf0PtFcg4Swsg4';
 	}
 
-	private function setConnection()
+	private function setTwitConnection()
 	{
 		$this->twit_connection = new TwitterOAuth
 		($this->consumer_key,
 			$this->consumer_secret, $this->tokens['access'], $this->tokens['secret']);
+		$this->twit_connection->setTimeouts(10, 15);
 	}
 
 	/**

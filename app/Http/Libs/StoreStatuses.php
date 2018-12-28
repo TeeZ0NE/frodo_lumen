@@ -178,6 +178,7 @@ class StoreStatuses
 					'favorite_count' => $this->getFavoriteCount($status),
 					'retweet_count' => $this->getRetweetCount($status),
 					'replies_count' => $this->getReplyCount($status),
+					'r_updated_at' => Carbon::now(),
 				]
 			);
 			if (!$post_m->id) break;

@@ -39,4 +39,9 @@ class Account extends Model
 			where('screen_name',$screen_name)->
 		limit($limit);
 	}
+
+	public function getAccountsWintervals()
+	{
+		return $this->select(['id', 'interval', 'screen_name'])->get();
+	}
 }
