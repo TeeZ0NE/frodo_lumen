@@ -13,4 +13,8 @@ class Post extends Model
 	const CREATED_AT = 'r_created_at';
 	const UPDATED_AT = 'r_updated_at';
 
+	public function account()
+	{
+		return $this->belongsTo(Account::class,'account_id');
+	}
 }

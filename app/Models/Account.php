@@ -31,4 +31,12 @@ class Account extends Model
 		leftjoin('posts', 'posts.account_id', '=', 'acc.id')->
 		groupby(['name', 'screen_name',"acc.interval"]);
 	}
+
+	public static function getAccountPosts($screen_name, $limit){
+		return DB::table('accounts as acc')->
+		select(DB::raw('id_str, title, p.created_at, description, favorite_count, replies_count, retweet_count'))->
+		leftjoin('posts as p', 'p.account_id', '=', 'acc.id')->
+			where('screen_name',$screen_name)->
+		limit($limit);
+	}
 }

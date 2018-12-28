@@ -23,4 +23,5 @@ $router->group(['prefix'=>'api/accounts'], function () use ($router){
 	$router->get('posts', 'AccountController@indexAllWithPosts');
 	$router->post('{screen_name}', 'AccountController@update');
 	$router->post('{screen_name}/delete', 'AccountController@delete');
+	$router->get('{screen_name}/posts', 'PostController');
 });
