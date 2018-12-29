@@ -19,11 +19,15 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
+     * to run CRON use it ->  * * * * * cd
+    /path-to-frodo-lumen-project && php artisan
+     * schedule:run
+     *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+	    $schedule->command('tweets:update')->cron('0 * * * *');
     }
 }
