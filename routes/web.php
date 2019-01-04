@@ -25,3 +25,5 @@ $router->group(['prefix'=>'api/accounts'], function () use ($router){
 	$router->post('{screen_name}/delete', 'AccountController@delete');
 	$router->get('{screen_name}/posts', 'PostController');
 });
+
+$router->get('/',['as'=>'accounts','uses'=>'Frontend\AccountsController@index']);

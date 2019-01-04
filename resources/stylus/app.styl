@@ -1,0 +1,47 @@
+@import "_colors"
+
+div
+	border 1px solid green
+#app
+	display grid
+	grid-gap 5px
+	grid-template-areas 'bread-crumbs bread-crumbs bread-crumbs' 'page-head page-head add-btn' 'data data data'
+.bread-crumbs
+	grid-area bread-crumbs
+.page-head
+	grid-area page-head
+.add-new-channel
+	align-content center
+	display grid
+	grid-area add-btn
+	justify-content center
+	button
+		height 30px
+.data-table
+	grid-area data
+	table
+		margin 0 auto
+		width 95%
+		border-collapse collapse
+		margin-top 2em
+		tr
+			line-height 2em
+		tr:nth-child(2n)
+			background-color $tbody_bgc
+		tr > td:first-child
+			text-align center
+	thead
+		background-color:$thead_bgc
+		color #fff
+		line-height 2em
+/* messages */
+.msg
+	border-radius .4em
+	border: 1px solid $msg_border
+	margin 1em 2em
+	padding 1em
+	text-align center
+.errorMsg
+	background-color $error_bg
+	border: 1px solid $error_border
+
