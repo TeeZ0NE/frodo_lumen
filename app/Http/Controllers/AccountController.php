@@ -54,7 +54,8 @@ class AccountController extends Controller
 					true,
 					'All users with a post count',
 					'accounts',
-					Account::getAccountWithPostCount()->paginate($this->page_count)
+//					Account::getAccountWithPostCount()->paginate($this->page_count)
+					Account::getAccountWithPostCount()->get()
 				));
 		} else {
 
