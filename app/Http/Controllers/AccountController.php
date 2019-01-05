@@ -47,7 +47,7 @@ class AccountController extends Controller
 	 */
 	public function index()
 	{
-		if (collect(Post::first())->isNotEmpty()) {
+		if (collect(Account::getAccountWithPostCount()->get())->isNotEmpty() or collect(Post::first())->isNotEmpty()) {
 
 			return response()->json(
 				StatusMessage::statusMessage(
@@ -60,7 +60,7 @@ class AccountController extends Controller
 		} else {
 
 			return response()->json(StatusMessage::statusMessage(false,
-				'Posts not found'));
+				'Users and Posts not found'));
 		}
 	}
 
