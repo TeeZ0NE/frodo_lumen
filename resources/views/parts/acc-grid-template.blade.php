@@ -1,4 +1,3 @@
-<!-- component template -->
 <script type="text/x-template" id="grid-template">
 	<table>
 		<thead>
@@ -15,7 +14,11 @@
 			<td>@{{ channel.name }}</td>
 			<td>@{{ channel.posts_number }}</td>
 			<td>@{{ channel.refresh_interval }}</td>
-			<td>Edit / Posts / <a href="#" @click.prevent="onDeleteUser(channel.screen_name, index)">Delete</a></td>
+			<td>
+            <a href="#" @click.prevent="onEditUser">Edit </a>/ 
+            <a href="#" v-if="channel.posts_number" @click.prevent="onViewPosts(channel.screen_name)"><span>Posts</span></a>
+            <span v-else>Posts</span> / 
+            <a href="#" @click.prevent="onDeleteUser(channel.screen_name, index)">Delete</a></td>
 		</tr>
 		</tbody>
 	</table>
