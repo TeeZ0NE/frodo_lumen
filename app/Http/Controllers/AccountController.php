@@ -47,7 +47,7 @@ class AccountController extends Controller
 	 */
 	public function index()
 	{
-		if (collect(Account::getAccountWithPostCount()->get())->isNotEmpty() or collect(Post::first())->isNotEmpty()) {
+        if (collect(Account::getAccountWithPostCount()->get())->isNotEmpty() or collect(Post::first())->isNotEmpty()) {
 
 			return response()->json(
 				StatusMessage::statusMessage(
