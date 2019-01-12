@@ -108,15 +108,16 @@ class AccountController extends Controller
 	 */
 	public function update(Request $request, $screen_name)
 	{
-		$this->validate($request, ['interval' => 'required|numeric|min:1']);
+		$this->validate($request, ['interval' => 'required|numeric|min:1', 'name' =>'required']);
 		$interval = $request->interval;
+		$name = $request->name;
 
 		if (Account::where('screen_name', $screen_name)->
-		update(['interval' => $interval]))
+		update(['interval' => $interval, 'name'=>$name]))
 
 			return response()->
 			json(StatusMessage::statusMessage(true,
-				sprintf('Interval for %s was updated to %d', $screen_name, $interval)));
+				sprintf('Interval for %s was updated to %d, name is %s', $screen_name, $interval, $name)));
 
 		return response()->json(StatusMessage::statusMessage(false,
 			sprintf('The %s not found in database and not updated', $screen_name)));
