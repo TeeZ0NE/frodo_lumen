@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <slot name="header">
-           <h3>{{modalUser.title}}</h3> 
+           <h3>{{modalUser.title}}</h3>
           </slot>
           <button id="close-wind" name="close-btn" @click="$emit('close')">X</button>
         </div>
@@ -36,7 +36,7 @@
           <slot name="footer">
             <button @click="$emit('ok', modalUser)">Ok</button>
               <button class="modal-default-button" @click="$emit('close')">
-               Cancel 
+               Cancel
              </button>
 
            </slot>
@@ -55,7 +55,7 @@
    }
  </script>
 
- <style lang="stylus" scoped>
+ <style lang="stylus">
 $thead_bgc = #5178ff
 $tbody_bgc = #9eccff
  .modal-mask {
@@ -97,7 +97,6 @@ $tbody_bgc = #9eccff
 
 .modal-header button {
   float: right;
-  padding: 0;
 }
 
 .modal-body {
@@ -109,7 +108,7 @@ $tbody_bgc = #9eccff
   input
     width 90%
   select
-    width 50% 
+    width 50%
   .custom-input
     margin-top 1em
 
