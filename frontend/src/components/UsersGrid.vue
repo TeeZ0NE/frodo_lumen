@@ -3,7 +3,7 @@
 		<thead>
 		<tr>
 			<th v-for="key in columns" :key="key">
-				{{ key }}
+                {{ key }}
 			</th>
 		</tr>
 		</thead>
@@ -34,3 +34,51 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+$thead_bgc = #5178ff
+$tbody_bgc = #9eccff
+.data-table
+    grid-area data
+    table
+        margin 0 auto
+        width 95%
+        border-collapse collapse
+        margin-top 2em
+        tr
+            line-height 2em
+        tr:nth-child(2n)
+            background-color $tbody_bgc
+        tr > td:first-child
+            text-align center
+        tr td:nth-child(2n)
+            border-left 1px solid $thead_bgc
+            border-right 1px solid $thead_bgc
+        thead
+            background-color:$thead_bgc
+            color #fff
+            line-height 2em
+        th
+            color $tbody_bgc
+            &.active
+                color #fff   
+                &.arrow
+                    opacity 1
+    .arrow
+        display inline-block
+        vertical-align middle
+        width 0
+        height 0
+        margin-left 5px
+        opacity 0.66
+
+        &.asc
+            border-left 4px solid transparent
+            border-right 4px solid transparent
+            border-bottom 4px solid #fff
+
+        &.dsc
+            border-left 4px solid transparent
+            border-right 4px solid transparent
+            border-top 4px solid #fff             
+</style>
