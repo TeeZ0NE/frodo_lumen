@@ -2,7 +2,7 @@
     <table>
 		<thead>
 		<tr>
-			<th v-for="key in columns" :key="key">
+			<th v-for="key in columns" :key="key" class="default">
                 {{ key }}
 			</th>
 		</tr>
@@ -58,27 +58,6 @@ $tbody_bgc = #9eccff
             background-color:$thead_bgc
             color #fff
             line-height 2em
-        th
-            color $tbody_bgc
-            &.active
-                color #fff   
-                &.arrow
-                    opacity 1
-    .arrow
-        display inline-block
-        vertical-align middle
-        width 0
-        height 0
-        margin-left 5px
-        opacity 0.66
-
-        &.asc
-            border-left 4px solid transparent
-            border-right 4px solid transparent
-            border-bottom 4px solid #fff
-
-        &.dsc
-            border-left 4px solid transparent
-            border-right 4px solid transparent
-            border-top 4px solid #fff             
+        th.default
+            color #fff              
 </style>
