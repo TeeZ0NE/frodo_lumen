@@ -89,7 +89,6 @@ export default {
         this.modalUser.screen_name = this.screen_name = screen_name;
         this.modalUser.refreshInterval = this.refreshInterval = refreshInterval;
         this.modalUser.name = name;
-        this.message = `${this.screen_name} interval ${this.refreshInterval}`;
       },
       onUpdateUser(modalUser){
         this.screen_name = modalUser.screen_name;
