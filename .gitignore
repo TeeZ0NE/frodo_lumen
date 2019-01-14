@@ -1,5 +1,6 @@
 /vendor
 /.idea
+/frontend/app_dist/
 Homestead.json
 Homestead.yaml
 .env
