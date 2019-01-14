@@ -33,7 +33,7 @@ export default {
             apiUrl: "http://localhost:8021/api/accounts/",
             channels: {},
             columnHeaders: ["#", "Screen name", "Name", "Posts number", "Refresh interval", "Actions"],
-            columnPostsHeaders: ['id_str', 'title', 'description', 'favorite_count','replies_count', 'retweet_count', 'created_at'],
+            columnPostsHeaders: ["#", "Id", "Created at", "Title", "Description", "Favorite count", "Replies count", "Retweet count"],
             defaults:{homePageTitle: "Channels", postsPageTitle: "Posts", modalUser:{erMsg:'', isEr:false, title:'', screen_name:'', refreshInterval:1, name:''}},
             hasError: false,
             index: -1,
@@ -122,7 +122,6 @@ export default {
             vm.posts = data.tweets;
           } else {
             vm.hasError = true;
-            setTimeout(()=>{vm.message = data.description || "Error occurs"},3000);
           }
         });
         vm.navItems.push({
@@ -135,7 +134,6 @@ export default {
         this.isHomePage = true;
         this.navItems.splice(1, this.navItems.length - 1);
         this.screen_name = '';
-        this.posts = {};
         this.pageTitle = this.defaults.homePageTitle;
       },
       onNotConfirmed(){
@@ -209,12 +207,14 @@ export default {
     created () {
       this.pageTitle = this.defaults.homePageTitle;
       this.modalUser = this.defaults.modalUser;
-      this.onFetchChData();
+      this.onFetchChData(); 
     }
 }
 </script>
 
 <style lang="stylus">
+$thead_bgc = #5178ff
+$tbody_bgc = #9eccff
 #app
     display grid
     grid-gap 5px
@@ -222,7 +222,26 @@ export default {
 .page-head
     grid-area page-head
 
-
+.data-table
+    grid-area data
+    table
+        margin 0 auto
+        width 95%
+        border-collapse collapse
+        margin-top 2em
+        tr
+            line-height 2em
+        tr:nth-child(2n)
+            background-color $tbody_bgc
+        tr > td:first-child
+            text-align center
+        tr td:nth-child(2n)
+            border-left 1px solid $thead_bgc
+            border-right 1px solid $thead_bgc
+        thead
+            background-color:$thead_bgc
+            color #fff
+            line-height 2em
 /* nav */
 .nav
     grid-area bread-crumbs
