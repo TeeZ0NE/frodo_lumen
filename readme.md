@@ -18,7 +18,7 @@ The diagram below shows the main processes for the user.
 
 ### API posts request
 
-![Posts request](https://github.com/TeeZ0NE/frodo_lumen/blob/dev/resources/Assets/frodo_db-API-posts-requests_responses.png)
+![Posts request](https://github.com/TeeZ0NE/frodo_lumen/blob/dev/resources/Assets/frodo_db-API_posts-requests_responses.png)
 
 All accounts are also available with their own posts on the URL *api/accounts/posts*
 
