@@ -1,21 +1,54 @@
-# Lumen PHP Framework
+# The Frodo Application based on Lumen 5.x (current is 5.7) backend and VueJs 2.x (current is 2.5) frontend
+## Working process
+root:
+- backend -> root
+- frontend
+    - dev -> root/frontend/src
+    - prod -> root/frontend/app_dist
+- Unit tests -> root/tests
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+###### Notice! Fronend getting data from localhost:8021
+### API account request
+[Postman Frodo API online Requests/Respones docs](https://web.postman.co/collections/5662109-1d9243d8-a84e-48ba-b1fa-710613c1671e?workspace=f67a518b-2f91-424e-8800-65e3d0c58899#a88f2dda-f407-4c3d-8731-ed60c89e5474)
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Also available Postman [collection](https://github.com/TeeZ0NE/frodo_lumen/blob/dev/resources/Assets/frodo_postman_collection.json)
 
-## Official Documentation
+The diagram below shows the main processes for the user.
+![Diagram of account](https://github.com/TeeZ0NE/frodo_lumen/blob/dev/resources/Assets/frodo_db-API-account-requests_responses.png)
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### API posts request
 
-## Security Vulnerabilities
+![Posts request](resohttps://github.com/TeeZ0NE/frodo_lumen/blob/dev/resources/Assets/frodo_db-API posts-requests_responses.png)
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+All accounts are also available with their own posts on the URL *api/accounts/posts*
 
-## License
+**Summary**
+Action|Method|Path|Comment
+-|:-:|:-:|-:
+Create|POST|/api/accounts/new|using body screen_name and refresh interval
+Get all with posts count|GET|/api/accounts|
+Get all with posts|GET|/api/accounts/posts|With count results 5 per page and getttin links to next one
+Update account|POST|/api/accounts/{screen_name}| in body: name and interval
+Delete account|POST|/api/accounts/{screen_name}/delete||
+Get user posts|GET|/api/accounts/{screen_name}/posts[?limit=]|Optional parameter for getting last *limit* (default 100) posts|
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+After a new user is added, through the Twitter service of the application, it checks if there is such a user on the service and if he has posts and then downloads immediately them.
+
+## Updating
+Checks the time of the last update. If it coincides with the update interval - update tweets.
+## Commands
+### CRON
+Run Scheduler globally
+
+`* * * * * cd [path_to_project] && php artisan schedule:run`
+### Via Artisan command line
+`tweets:update`
+### Frontend in another host
+`npm serve [path_to_app_dist]` via NodeJs server
+### Frontend in same host
+`{BASE_URL}`
+### Artisan Seeds
+Available data seeeder. All accounts are not real for this
+`db:seed` or `migrate:fresh [--seed]`.
+
+## Screens
