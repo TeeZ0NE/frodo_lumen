@@ -32,7 +32,7 @@ export default {
             apiUrl: "http://localhost:8021/api/accounts/",
             channels: {},
             columnHeaders: ["#", "Screen name", "Name", "Posts number", "Refresh interval", "Actions"],
-            columnPostsHeaders: ['id_str', 'title', 'description', 'favorite_count','replies_count', 'retweet_count', 'created_at'],
+            columnPostsHeaders: ['id_str', 'created_at', 'title', 'description', 'favorite_count','replies_count', 'retweet_count'],
             defaults:{homePageTitle: "Channels", postsPageTitle: "Posts", modalUser:{erMsg:'', isEr:false, title:'', screen_name:'', refreshInterval:1, name:''}},
             hasError: false,
             index: -1,
