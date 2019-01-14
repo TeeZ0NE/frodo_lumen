@@ -26,7 +26,7 @@ All accounts are also available with their own posts on the URL *api/accounts/po
 
 Action|Method|Path|Comment
 -|:-:|:-:|-:
-Create|POST|/api/accounts/new|using body screen_name and refresh interval
+Create|POST|/api/accounts/new|using body screen_name and refresh interval. It take's 197 tweets by one. Twitter limits to 200 per once else it blocked, according to free plan
 Get all with posts count|GET|/api/accounts|
 Get all with posts|GET|/api/accounts/posts|With count results 5 per page and getting links to next one
 Update account|POST|/api/accounts/{screen_name}| in body: name and interval

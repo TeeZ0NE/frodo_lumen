@@ -31,7 +31,7 @@ trait TwitterAPI
 	/**
 	 * @var int Count of statuses. Max is 200
 	 */
-	private $count_statuses = 10;
+	private $count_statuses = 197;
 
 	public function __construct()
 	{
