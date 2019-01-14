@@ -11,12 +11,6 @@
 |
 */
 
-/*$router->get('/', function () use ($router) {
-    return $router->app->version();
-});*/
-//$router->get('api/foo', function () {
-//	return 'Hello World';
-//});
 $router->group(['prefix'=>'api/accounts'], function () use ($router){
 	$router->post('new',['as' => 'account_new', 'uses'=>'AccountController@store']);
 	$router->get('/','AccountController@index');
@@ -26,4 +20,4 @@ $router->group(['prefix'=>'api/accounts'], function () use ($router){
 	$router->get('{screen_name}/posts', 'PostController');
 });
 
-$router->get('/',['as'=>'accounts','uses'=>'Frontend\AccountsController@index']);
+$router->get('/',['as'=>'accounts','uses'=>'Frontend\AccountsController']);

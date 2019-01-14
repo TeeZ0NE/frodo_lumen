@@ -14,9 +14,8 @@ use App\Models\Account;
 
 class AccountsController extends Controller
 {
-	public function index()
+	public function __invoke()
 	{
-		return view('main')->with(['users'=>Account::getAccountWithPostCount
-			()->get()]);
+		return view('layout');
 	}
 }
